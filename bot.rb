@@ -53,6 +53,9 @@ class Bot
                 "#{action.member_creator.full_name} renamed \"#{action.data['old']['name']}\" to #{card_link}"
               end
 
+            when :addMemberToCard
+              "Se agrego un nuevo miembro a la tarjeta #{card_link} #{action.data['card']['id']}"
+              
             when :createCard
               "#{action.member_creator.full_name} added #{card_link} to #{action.data['list']['name']}"
 
