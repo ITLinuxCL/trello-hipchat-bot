@@ -85,7 +85,7 @@ class Bot
             when :commentCard
               hp_user = action.member_creator.full_name
               #"#{action.member_creator.full_name} commented on #{card_link}: #{action.data['text']}"
-              "#{action.data['text']} - #{card_link}"
+              "[Trello: #{action.data['card']['name']}] #{action.data['text']} - #{card_link}"
 
             # when :deleteCard
    #            "#{action.member_creator.full_name} deleted card ##{action.data['card']['idShort']}"
