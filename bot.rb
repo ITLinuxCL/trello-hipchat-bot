@@ -11,6 +11,17 @@ Trello.configure do |config|
   config.member_token = ENV['TRELLO_TOKEN']
 end
 
+TRELLO_2_HIPCHAT = {
+  "pbruna" => "@pbruna",
+  "andresgallardof" => "@agallardo",
+  "danieleugenin" => "@deugenin",
+  "elizabetharriagada1" => "@earriagada",
+  "vvargasit" => "@vvargas",
+  "miguelein" => "@mcoa"
+}
+
+
+
 class Bot
 
   def self.run
@@ -88,6 +99,8 @@ class Bot
 
             if dedupe.new? message
               puts "Sending: #{message}"
+              # Lo que viene cambia el username de trello a username de Hipchat
+              TRELLO_2_HIPCHAT.each { |k, v| message.sub!(k, v) }
               hipchat_room.send('Trello', message, :color => :purple)
             else
               puts "Supressing duplicate message: #{message}"
