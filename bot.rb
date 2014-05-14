@@ -52,7 +52,7 @@ class Bot
           if last_timestamp < action.date
             board_link = "<a href='https://trello.com/board/#{action.data['board']['id']}'>#{action.data['board']['name']}</a>"
             #card_link = "#{board_link} : <a href='https://trello.com/card/#{action.data['board']['id']}/#{action.data['card']['idShort']}'>#{action.data['card']['name']}</a>"
-            card_link = "https://trello.com/card/#{action.data['board']['id']}/#{action.data['card']['idShort']}'>#{action.data['card']['name']}"
+            card_link = "https://trello.com/card/#{action.data['board']['id']}/#{action.data['card']['idShort']}"
             hp_user = ""
             message = case action.type.to_sym
             # when :updateCard
