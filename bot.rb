@@ -101,7 +101,7 @@ class Bot
               puts "Sending: #{message}"
               # Lo que viene cambia el username de trello a username de Hipchat
               TRELLO_2_HIPCHAT.each { |k, v| message.sub!(k, v) }
-              hipchat_room.send('Trello', message, :color => :purple)
+              hipchat_room.send('Trello', message, :message_format => 'text', :color => :purple)
             else
               puts "Supressing duplicate message: #{message}"
             end
