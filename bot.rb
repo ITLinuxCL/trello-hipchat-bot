@@ -51,40 +51,44 @@ class Bot
         actions.each do |action|
           if last_timestamp < action.date
             board_link = "<a href='https://trello.com/board/#{action.data['board']['id']}'>#{action.data['board']['name']}</a>"
-            card_link = "#{board_link} : <a href='https://trello.com/card/#{action.data['board']['id']}/#{action.data['card']['idShort']}'>#{action.data['card']['name']}</a>"
+            #card_link = "#{board_link} : <a href='https://trello.com/card/#{action.data['board']['id']}/#{action.data['card']['idShort']}'>#{action.data['card']['name']}</a>"
+            card_link = "https://trello.com/card/#{action.data['board']['id']}/#{action.data['card']['idShort']}'>#{action.data['card']['name']}"
+            hp_user = ""
             message = case action.type.to_sym
-            when :updateCard
-              if action.data['listBefore']
-                "#{action.member_creator.full_name} moved #{card_link} from #{action.data['listBefore']['name']} to #{action.data['listAfter']['name']}"
-              elsif action.data['card']['closed'] && !action.data['old']['closed']
-                "#{action.member_creator.full_name} archived #{card_link}"
-              elsif !action.data['card']['closed'] && action.data['old']['closed']
-                "#{action.member_creator.full_name} has been put back #{card_link} to the board"
-              elsif action.data['old']['name']
-                "#{action.member_creator.full_name} renamed \"#{action.data['old']['name']}\" to #{card_link}"
-              end
+            # when :updateCard
+  #             if action.data['listBefore']
+  #               "#{action.member_creator.full_name} moved #{card_link} from #{action.data['listBefore']['name']} to #{action.data['listAfter']['name']}"
+  #             elsif action.data['card']['closed'] && !action.data['old']['closed']
+  #               "#{action.member_creator.full_name} archived #{card_link}"
+  #             elsif !action.data['card']['closed'] && action.data['old']['closed']
+  #               "#{action.member_creator.full_name} has been put back #{card_link} to the board"
+  #             elsif action.data['old']['name']
+  #               "#{action.member_creator.full_name} renamed \"#{action.data['old']['name']}\" to #{card_link}"
+  #             end
 
             when :addMemberToCard
               "Se agrego un nuevo miembro a la tarjeta #{card_link} #{action.data['card']['id']}"
               
-            when :createCard
-              "#{action.member_creator.full_name} added #{card_link} to #{action.data['list']['name']}"
-
-            when :moveCardToBoard
-              "#{action.member_creator.full_name} moved #{card_link} from the #{action.data['boardSource']['name']} board to #{action.data['board']['name']}"
-
-            when :updateCheckItemStateOnCard
-              if action.data["checkItem"]["state"] == 'complete'
-                "#{action.member_creator.full_name} checked off \"#{ action.data['checkItem']['name']}\" on #{card_link}"
-              else
-                "#{action.member_creator.full_name} unchecked \"#{action.data['checkItem']['name']}\" on #{card_link}"
-              end
+            # when :createCard
+  #             "#{action.member_creator.full_name} added #{card_link} to #{action.data['list']['name']}"
+  # 
+  #           when :moveCardToBoard
+  #             "#{action.member_creator.full_name} moved #{card_link} from the #{action.data['boardSource']['name']} board to #{action.data['board']['name']}"
+  # 
+  #           when :updateCheckItemStateOnCard
+  #             if action.data["checkItem"]["state"] == 'complete'
+  #               "#{action.member_creator.full_name} checked off \"#{ action.data['checkItem']['name']}\" on #{card_link}"
+  #             else
+  #               "#{action.member_creator.full_name} unchecked \"#{action.data['checkItem']['name']}\" on #{card_link}"
+  #             end
 
             when :commentCard
-              "#{action.member_creator.full_name} commented on #{card_link}: #{action.data['text']}"
+              hp_user = action.member_creator.full_name
+              #"#{action.member_creator.full_name} commented on #{card_link}: #{action.data['text']}"
+              "#{action.data['text']} - #{card_link}"
 
-            when :deleteCard
-              "#{action.member_creator.full_name} deleted card ##{action.data['card']['idShort']}"
+            # when :deleteCard
+   #            "#{action.member_creator.full_name} deleted card ##{action.data['card']['idShort']}"
 
             # when :addChecklistToCard
             #   "#{action.member_creator.full_name} added the checklist \"#{action.data['checklist']['name']}\" to #{card_link}"
@@ -101,7 +105,7 @@ class Bot
               puts "Sending: #{message}"
               # Lo que viene cambia el username de trello a username de Hipchat
               TRELLO_2_HIPCHAT.each { |k, v| message.sub!(k, v) }
-              hipchat_room.send('Trello', message, :message_format => 'text', :color => :purple)
+              hipchat_room.send(hp_user, message, :message_format => 'text', :color => :purple)
             else
               puts "Supressing duplicate message: #{message}"
             end
