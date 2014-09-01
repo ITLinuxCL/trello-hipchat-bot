@@ -12,12 +12,12 @@ Trello.configure do |config|
 end
 
 TRELLO_2_HIPCHAT = {
-  "pbruna" => "pbruna",
-  "andresgallardof" => "agallardo",
-  "danieleugenin" => "deugenin",
-  "elizabetharriagada1" => "earriagada",
-  "vvargasit" => "vvargas",
-  "miguelein" => "mcoa"
+  "pbruna" => "pato",
+  "andresgallardof" => "andres",
+  "danieleugenin" => "daniel",
+  "elizabetharriagada1" => "elizabeth",
+  "vvargasit" => "nicolas",
+  "miguelein" => "miguel"
 }
 
 
